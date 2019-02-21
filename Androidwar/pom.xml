@@ -15,7 +15,70 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>Androidwar</finalName>
+  <profiles>
+	  <profile>
+<id>myimage</id>
+    <build>
+    <pluginManagement>          
+	   <plugins>
+        <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+        <execution>
+        <phase>package</phase>
+        <goals>
+        <goal>exec</goal>
+        </goals>
+        <configuration>
+          <executable>docker</executable>
+          <arguments>
+            <argument>build</argument>
+            <argument>-t</argument>
+            <argument>dockerfile</argument>
+            <argument>.</argument>
+            </arguments>
+           </configuration>
+           </execution>
+          </executions>
+  </plugin>
+  </plugins>
+  </pluginManagement>
   </build>
+</profile>
+
+<profile>
+        <id>codecoverage</id>
+<build>
+<plugins>
+<plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.5.5.201112152213</version>
+   <configuration>
+       <destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
+       <datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
+     </configuration>
+     <executions>
+      <execution>
+        <id>jacoco-initialize</id>
+          <goals>
+            <goal>prepare-agent</goal>
+          </goals>
+       </execution>
+       <execution>
+         <id>jacoco-site</id>
+         <phase>package</phase>
+       <goals>
+      <goal>report</goal>
+     </goals>
+    </execution>
+    </executions>
+</plugin>
+</plugins>
+</build>
+</profile>
+</profiles>
 </project>
+
